@@ -56,8 +56,8 @@ stages:
         dockerComposeFile: 'demo/docker-compose.yml'
         action: 'Push services'
         includeLatestTag: true
-    - upload: manifests
-      artifact: manifests
+    #- upload: manifests
+    #  artifact: manifests
 
 - stage: Deploy
   displayName: Deploy stage
@@ -85,7 +85,7 @@ stages:
               kubernetesServiceEndpoint: 'demoKubeCluster-hands-on'
               command: 'apply'
               useConfigurationFile: true
-              configuration: '*/demo/Kubernetes/product-composite.yml'
+              configuration: '**/product-composite.yml'
               secretType: 'dockerRegistry'
               containerRegistryType: 'Azure Container Registry'
               azureSubscriptionEndpointForSecrets: 'Visual Studio Enterprise Subscription(1b6f7cd2-5494-49e8-bfbe-b4c38acb08f5)'
