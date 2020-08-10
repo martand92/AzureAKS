@@ -1,0 +1,58 @@
+version: '2.1'
+
+services:
+  product-service:
+   # build: microservices/product-service
+    build: product-service
+    image: hands-on/product-service
+    #mem_limit: 350m
+    mem_limit: 100m
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+       mongodb:
+         condition: service_healthy
+#       rabbitmq:
+#         condition: service_healthy
+
+#   recommendation:
+#     build: microservices/recommendation-service
+#     mem_limit: 350m
+#     environment:
+#       - SPRING_PROFILES_ACTIVE=docker
+# 
+#   review:
+#     build: microservices/review-service
+#     mem_limit: 350m
+#     environment:
+#       - SPRING_PROFILES_ACTIVE=docker
+
+  product-composite:
+    #build: microservices/product-composite-service
+    build: product-composite
+    image: hands-on/product-composite-service
+    #mem_limit: 350m
+    mem_limit: 100m
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+#     depends_on:
+#       rabbitmq:
+#         condition: service_healthy
+        
+
+      
+  # $ mongo
+  mongodb:
+    image: mongo:3.6.9
+    #mem_limit: 350m
+    mem_limit: 100m
+    ports:
+      - "27017:27017"
+    command: mongod --smallfiles
+    healthcheck:
+      test: "mongo --eval 'db.stats().ok'"
+      interval: 10s
+      timeout: 5s
+      retries: 10
