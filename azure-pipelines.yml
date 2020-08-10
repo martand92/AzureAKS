@@ -40,16 +40,14 @@ stages:
         mavenAuthenticateFeed: false
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
-    - task: Docker@2
-      displayName: Build and push an image to container registry
+    - task: DockerCompose@0
       inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
-          
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Visual Studio Enterprise Subscription(1b6f7cd2-5494-49e8-bfbe-b4c38acb08f5)'
+        azureContainerRegistry: '{"loginServer":"democontinerregistry.azurecr.io", "id" : "/subscriptions/1b6f7cd2-5494-49e8-bfbe-b4c38acb08f5/resourceGroups/aksRG/providers/Microsoft.ContainerRegistry/registries/demoContinerRegistry"}'
+        dockerComposeFile: 'demo/docker-compose.yml'
+        action: 'Run a Docker Compose command'
+        dockerComposeCommand: 'rm --all'
     - upload: manifests
       artifact: manifests
 
