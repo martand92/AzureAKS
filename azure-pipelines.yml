@@ -79,16 +79,14 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-              
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
+          - task: Kubernetes@1
             inputs:
-              action: deploy
-              manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
-
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'demoKubeCluster-hands-on'
+              command: 'apply'
+              useConfigurationFile: true
+              configuration: '/demo/Kubernetes'
+              secretType: 'dockerRegistry'
+              containerRegistryType: 'Azure Container Registry'
+              azureSubscriptionEndpointForSecrets: 'Visual Studio Enterprise Subscription(1b6f7cd2-5494-49e8-bfbe-b4c38acb08f5)'
+              azureContainerRegistry: 'democontinerregistry.azurecr.io'
