@@ -85,7 +85,7 @@ stages:
               kubernetesServiceEndpoint: 'demoKubeCluster-hands-on'
               command: 'apply'
               useConfigurationFile: true
-              configuration: 'Kubernetes/product-composite.yml'
+              configuration: 'demo/Kubernetes/product-composite.yml'
               secretType: 'dockerRegistry'
               containerRegistryType: 'Azure Container Registry'
               azureSubscriptionEndpointForSecrets: 'Visual Studio Enterprise Subscription(1b6f7cd2-5494-49e8-bfbe-b4c38acb08f5)'
