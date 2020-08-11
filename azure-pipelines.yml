@@ -1,0 +1,91 @@
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '37d1ef92-0af0-4d81-8d91-80d448203ca1'
+  imageRepository: 'martandazureaks'
+  containerRegistry: 'democontinerregistry.azurecr.io'
+  dockerfilePath: '**/Dockerfile'
+  tag: '$(Build.BuildId)'
+  imagePullSecret: 'democontinerregistry09fa-auth'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+  
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Maven@3
+      inputs:
+        mavenPomFile: 'demo/pom.xml'
+        publishJUnitResults: false
+        javaHomeOption: 'JDKVersion'
+        mavenVersionOption: 'Default'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: false
+    - task: DockerCompose@0
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Visual Studio Enterprise Subscription(1b6f7cd2-5494-49e8-bfbe-b4c38acb08f5)'
+        azureContainerRegistry: '{"loginServer":"democontinerregistry.azurecr.io", "id" : "/subscriptions/1b6f7cd2-5494-49e8-bfbe-b4c38acb08f5/resourceGroups/aksRG/providers/Microsoft.ContainerRegistry/registries/demoContinerRegistry"}'
+        dockerComposeFile: 'demo/docker-compose.yml'
+        action: 'Build services'
+        includeLatestTag: true
+    - task: DockerCompose@0
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Visual Studio Enterprise Subscription(1b6f7cd2-5494-49e8-bfbe-b4c38acb08f5)'
+        azureContainerRegistry: '{"loginServer":"democontinerregistry.azurecr.io", "id" : "/subscriptions/1b6f7cd2-5494-49e8-bfbe-b4c38acb08f5/resourceGroups/aksRG/providers/Microsoft.ContainerRegistry/registries/demoContinerRegistry"}'
+        dockerComposeFile: 'demo/docker-compose.yml'
+        action: 'Push services'
+        includeLatestTag: true
+    - upload: demo/Kubernetes
+      artifact: Kubernetes
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy
+    pool:
+      vmImage: $(vmImageName)
+    environment: 'martand92AzureAKS.hands-on'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: createSecret
+              secretName: $(imagePullSecret)
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(Pipeline.Workspace)/Kubernetes/product-composite.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/$(imageRepository):$(tag)
