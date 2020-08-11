@@ -16,7 +16,7 @@ spec:
       containers:
       - name: pro
         image: democontinerregistry.azurecr.io/hands-on/product-service
-        imagePullPolicy: Never
+        #imagePullPolicy: Never
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "docker"
