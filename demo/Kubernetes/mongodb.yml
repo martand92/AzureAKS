@@ -13,7 +13,7 @@ spec:
   - ReadWriteOnce
  hostPath:
   path: "/mnt/mongo_data"
-    
+
 ---
 
 kind: PersistentVolumeClaim
@@ -28,7 +28,7 @@ spec:
  resources:
   requests:
    storage: 1Gi
-   
+
 ---
 
 # apiVersion: apps/v1
@@ -94,10 +94,10 @@ spec:
   #clusterIP: None
   #selector:
      #app: mongodb
-    
---- 
- 
-apiVersion: apps/v1beta1
+
+---
+
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mongo
