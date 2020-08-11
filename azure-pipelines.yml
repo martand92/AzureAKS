@@ -56,8 +56,8 @@ stages:
         dockerComposeFile: 'demo/docker-compose.yml'
         action: 'Push services'
         includeLatestTag: true
-    - upload: manifests
-      artifact: manifests
+    - upload: demo/Kubernetes
+      artifact: Kubernetes
 
 - stage: Deploy
   displayName: Deploy stage
