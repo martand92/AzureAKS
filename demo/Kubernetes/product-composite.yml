@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
       - name: comp
-        image: hands-on/product-composite-service
-        imagePullPolicy: Never
+        image: democontinerregistry.azurecr.io/hands-on/product-composite-service
+        #imagePullPolicy: Never
         env:
           - name: SPRING_PROFILES_ACTIVE
             value: "docker"
