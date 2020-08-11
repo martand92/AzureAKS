@@ -84,7 +84,7 @@ stages:
             inputs:
               action: deploy
               manifests: |
-                $(Pipeline.Workspace)/demo/Kubernetes/product-composite.yml
+                $(Pipeline.Workspace)/Kubernetes/product-composite.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
