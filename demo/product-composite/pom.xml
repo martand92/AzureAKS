@@ -9,9 +9,6 @@
 	</parent>
 	<artifactId>product-composite</artifactId>
 
-
-
-
 	<dependencies>
 		<dependency>
 			<groupId>com.springboot.microservices</groupId>

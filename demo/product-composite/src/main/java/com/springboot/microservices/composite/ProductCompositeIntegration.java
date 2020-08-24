@@ -27,8 +27,8 @@ public class ProductCompositeIntegration implements ProductService {
 
 		// productServiceUrl = "http://" + productServiceHost + ":" + productServicePort
 		// + "/product/";
-		//productServiceUrl = "http://product-service:" + productServicePort + "/product/";
-		productServiceUrl = "http://product:"+ productServicePort +"/product/";
+		productServiceUrl = "http://product-service:" + productServicePort + "/product/";
+		//productServiceUrl = "http://product:"+ productServicePort +"/product/";
 	}
 
 	@Override

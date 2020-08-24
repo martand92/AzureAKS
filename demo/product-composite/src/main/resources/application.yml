@@ -101,7 +101,7 @@ logging:
     root: INFO
     com.springboot.microservices: DEBUG
 
-management.health.mongo.enabled : false  
+management.health.mongo.enabled : false
 # management.endpoint.health.show-details: "ALWAYS"
 # management.endpoints.web.exposure.include: "*"
 ---
@@ -111,7 +111,7 @@ server.port: 8080
 
 app:
   product-service:
-    host: product
+    host: product-service
     port: 8080
 #   recommendation-service:
 #     host: recommendation

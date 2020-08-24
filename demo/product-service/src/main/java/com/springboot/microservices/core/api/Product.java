@@ -1,7 +1,5 @@
 package com.springboot.microservices.core.api;
 
-import org.springframework.stereotype.Component;
-
 //@Component
 public class Product {
     private int productId;
