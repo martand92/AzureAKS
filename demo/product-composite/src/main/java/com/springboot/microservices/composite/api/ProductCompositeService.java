@@ -34,7 +34,7 @@ public interface ProductCompositeService {
         @ApiResponse(code = 422, message = "Unprocessable entity, input parameters caused the processing to fail. See response message for more information.")
     })*/
     @PostMapping(
-        value    = "/product-composite",
+        value    = "/product-compositee",
         consumes = "application/json")
     void createCompositeProduct(@RequestBody Product body);
 
