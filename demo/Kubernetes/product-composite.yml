@@ -75,7 +75,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: product-composite
+  name: product-compositee
   namespace: hands-on
 spec:
   selector:
