@@ -53,7 +53,7 @@ public interface ProductCompositeService {
         @ApiResponse(code = 422, message = "Unprocessable entity, input parameters caused the processing to fail. See response message for more information.")
     })*/
     @GetMapping(
-        value    = "/product-composite/{productId}",
+        value    = "/product-compositee/{productId}",
         produces = "application/json")
     Product getCompositeProduct(@PathVariable int productId);
 
