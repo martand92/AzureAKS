@@ -24,7 +24,7 @@ public class ProductCompositeIntegration implements ProductService {
 			@Value("${app.product-service.port}") int productServicePort) {
 
 		this.restTemplate = restTemplate;
-
+		//Check Teikametrics 1
 		// productServiceUrl = "http://" + productServiceHost + ":" + productServicePort
 		// + "/product/";
 		productServiceUrl = "http://product-service:" + productServicePort + "/product/";
